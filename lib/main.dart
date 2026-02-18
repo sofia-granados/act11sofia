@@ -1,122 +1,185 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
+      home: const ChefPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class ChefPage extends StatelessWidget {
+  const ChefPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: const Icon(Icons.menu, color: Colors.deepPurple),
+        title: const Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            "Chofy'S",
+            style: TextStyle(
+              color: Colors.teal,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
             ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // --- Sección de Búsqueda ---
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.deepPurple, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const TextField(
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.shopping_basket_outlined, color: Colors.deepPurple),
+                    hintText: 'Búsqueda',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+
+            // --- Sección de Perfil ---
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("Perfil", style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold)),
+            ),
+            Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  const CircleAvatar(
+                    radius: 45,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Sofia Granados",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(height: 40),
+
+            // --- Sección de Favoritos Actualizada ---
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("Favoritos", style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 10),
+            
+            SizedBox(
+              height: 190,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  _buildProductCard(
+                    "Sobre whiskas", 
+                    "\$12.00", 
+                    "https://m.media-amazon.com/images/I/71PWYl5r2gL._AC_UF1000,1000_QL80_.jpg"
+                  ),
+                  _buildProductCard(
+                    "Lata de premio", 
+                    "\$13.00", 
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9A9qDJ40Aniz7OYM0jlUUA8C94d7QLVC95g&s"
+                  ),
+                  _buildProductCard(
+                    "Croquetas", 
+                    "\$200.00", 
+                    "https://i5.walmartimages.com/asr/03035f7d-cc5d-4734-b94a-5fce76985fa0.5692cfeba0347fccf5e2ae6e0bf40142.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF"
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(height: 40),
+
+            // --- Sección de Compras ---
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("Compras", style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 40),
+            const Center(
+              child: Text(
+                "No hay compras por el momento",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildProductCard(String name, String price, String imageUrl) {
+    return Container(
+      width: 130,
+      margin: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black, width: 1.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+              },
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 40),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            name, 
+            textAlign: TextAlign.center, 
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            price, 
+            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+        ],
+      ),
     );
   }
 }
